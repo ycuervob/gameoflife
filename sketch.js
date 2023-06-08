@@ -13,7 +13,7 @@ let record;
 let myFont;
 let points = [];
 let mystatuselemnt;
-
+let providedkernel;
 
 let aliveCubes = 0;  // Variable para rastrear la cantidad de cubos vivos
 
@@ -22,6 +22,30 @@ function preload() {
   myFont = loadFont("https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf");
 }
 
+function getTableContent() {
+  var table = document.getElementById("myTable");
+  var rows = table.getElementsByTagName("tr");
+  var tableContent = [];
+
+  for (var i = 1; i < rows.length; i++) {
+    var cells = rows[i].getElementsByTagName("td");
+    var rowData = [];
+    var subRowData = [];
+
+    for (var j = 0; j < cells.length; j++) {
+      var input = cells[j].getElementsByTagName("input")[0];
+      subRowData.push([parseInt(input.value)]);
+
+      if ((j + 1) % 3 === 0 || j === cells.length - 1) {
+        rowData.push(subRowData);
+        subRowData = [];
+      }
+    }
+
+    tableContent.push(rowData);
+  }
+  return tableContent;
+}
 
 function binaryNoise(probability) {
   return Math.random() < probability ? 1 : 0;
@@ -75,6 +99,7 @@ function setup() {
   mystatuselemnt = document.getElementById("mystatus");
   easycam = createEasyCam({ distance: 1 });
   genMatrix();
+  providedkernel = getTableContent();
 }
 
 function draw() {
@@ -91,8 +116,8 @@ function draw() {
   }
 
   paintMatrix();
-  
-  mystatuselemnt.innerHTML = `<p>rameCount: ${frameRate()}</p><p>Cubes: ${aliveCubes}</p>`;
+
+  mystatuselemnt.innerHTML = `<p>rameCount: ${frameRate()}</p><p>Cubes: ${aliveCubes}</p><p style="${update ? "color:green":"color:red"}">Status: ${update ? "Running" : "Stopped"}</p>`;
   //text("Frame rate: "+frameRate(), 0, -300);
 }
 
@@ -105,6 +130,24 @@ function keyPressed() {
   }
 }
 
+function updatekernel() {
+  document.getElementById("message").innerHTML = "Kernel updated";
+  document.getElementById("message").toggleAttribute("hidden");
+  setTimeout(() => {
+    document.getElementById("message").toggleAttribute("hidden");
+  }, 2000);
+  providedkernel = getTableContent();
+}
+
+function resetKernel() {
+  providedkernel = [
+    [[[1], [1], [1]], [[1], [1], [1]], [[1], [1], [1]]],
+    [[[1], [1], [1]], [[1], [0], [1]], [[1], [1], [1]]],
+    [[[1], [1], [1]], [[1], [1], [1]], [[1], [1], [1]]]
+  ];
+
+}
+
 function convolucionarMatriz(matrizEntrada) {
   aliveCubes = 0;  // Reinicia la variable aliveCubes
   const flattenedArray = matrizEntrada.flat().flat(); // Obtener un arreglo plano
@@ -112,11 +155,7 @@ function convolucionarMatriz(matrizEntrada) {
   const shape = [matrizEntrada.length, matrizEntrada[0].length, matrizEntrada[0][0].length];
   const binaryMatrix = tf.tensor3d(typedArray, shape, 'float32'); // Crear tensor especificando el tipo
 
-  const kernel = tf.tensor4d([
-    [[[1], [1], [1]], [[1], [1], [1]], [[1], [1], [1]]],
-    [[[1], [1], [1]], [[1], [0], [1]], [[1], [1], [1]]],
-    [[[1], [1], [1]], [[1], [1], [1]], [[1], [1], [1]]]
-  ]);
+  const kernel = tf.tensor4d(providedkernel);
 
   const expandedBinaryMatrix = binaryMatrix.expandDims(-1);
   const expandedKernel = kernel.expandDims(-1);
@@ -129,11 +168,11 @@ function convolucionarMatriz(matrizEntrada) {
 
   const matrizConvertida = newmatriz.map(row =>
     row.map(column =>
-      column.map(item =>{
-        if (item[0] == 4 || item[0] == 5) {
+      column.map(item => {
+        if ((item[0] == 4 || item[0] == 5)) {
           aliveCubes++;
           return 1;
-        }else{
+        } else {
           return 0;
         }
       }
@@ -141,7 +180,34 @@ function convolucionarMatriz(matrizEntrada) {
     )
   );
 
-  tf.disposeVariables();
+  binaryMatrix.dispose();
+  kernel.dispose();
+  expandedBinaryMatrix.dispose();
+  expandedKernel.dispose();
+  binaryMatrixFloat.dispose();
+  kernelFloat.dispose();
+  convolved.dispose();
+
 
   return matrizConvertida;
+}
+
+function toggleTable() {
+  document.getElementById("container").classList.toggle("show");
+}
+
+function closeModal(){
+  document.getElementById('mymodal').toggleAttribute('hidden')
+}
+
+function startStop(){
+  update = !update;
+  let butn = document.getElementById('star-stop');
+  butn.innerHTML = update ? 'Stop' : 'Start';
+  butn.classList.toggle('btn-danger');
+}
+
+function reset(){
+  maxAliveCubes = Math.random() * 1000;
+  genMatrix();
 }

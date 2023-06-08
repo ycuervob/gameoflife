@@ -4,127 +4,103 @@
 <head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
   <script src="https://freshfork.github.io/p5.EasyCam/p5.easycam.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
   <script src="https://threejs.org/build/three.js"></script>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="sketch.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <meta charset="utf-8" />  
-  <style>
-    #mystatus{
-      position: fixed;
-      top: 0;
-      left: 0;
-      padding: 10px;
-      color: #fff;
-      background-color: rgba(255, 255,255, 0.30);
-    }
-
-    .table{
-      margin-bottom: 0;
-      background-color: rgba(255, 255,255, 0.30);
-    }
-
-    .floating-bubble {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background-color: #007bff;
-      text-align: center;
-      color: #fff;
-      line-height: 60px;
-      cursor: pointer;
-      z-index: 9999;
-    }
-    
-    .container {
-      display: none;
-      position: fixed;
-      bottom: 100px;
-      right: 20px;
-      border-radius: 8px;
-      background-color: rgba(255, 255, 255, 0.30);
-      z-index: 1;
-      max-width: 30rem;
-      padding: 1rem;
-      min-width: fit-content;
-    }
-    
-    .table-bordered {
-      max-width: 30rem;
-    }
-
-    .container.show {
-      display: flex;
-      flex-direction: column;
-      align-items: right;
-    }
-
-    .btn{
-      margin-top: 1rem;
-      margin-left: auto;
-    }
-  </style>
-
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8" />
 </head>
 
 <body>
-  <script src="sketch.js"></script>
-  <script>
-    function toggleTable() {
-      document.getElementById("container").classList.toggle("show");
-    }
-  </script>
 
-  <div class="floating-bubble" onclick="toggleTable()">Click</div>
+  <div id="mymodal" class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h1>Bienvenido al Juego de la Vida</h1>
+        <p>Presiona la tecla <span style=" font-weight: bold;">Space Bar</span> para reiniciar el juego y generar un
+          nuevo mundo. </p>
+        <p>Para comenzar o detener la simulación, simplemente presiona la tecla <span
+            style=" font-weight: bold;">C</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="message" class="alert alert-success" role="alert" hidden>
+    This is a success alert—check it out!
+  </div>
+
+  <div class="floating-bubble" onclick="toggleTable()">Options</div>
   <div id="mystatus"></div>
+  <div id="status-buttons">
+    <button id="star-stop" type="button" class="btn btn-success" onclick="startStop()">Start</button>
+    <button id="reset" type="button" class="btn btn-warning" onclick="reset()">Reset</button>
+  </div>
+
+
 
   <div id="container" class="container">
-      <table class="table table-bordered">
-        <thead class="thead-light">
-          <tr>
-            <th>Columna 1</th>
-            <th>Columna 2</th>
-            <th>Columna 3</th>
-            <th>Columna 4</th>
-            <th>Columna 5</th>
-            <th>Columna 6</th>
-            <th>Columna 7</th>
-            <th>Columna 8</th>
-            <th>Columna 9</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-          </tr>
-          <tr>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-            <td><input type="number" class="form-control"></td>
-          </tr>
-          <!-- Repite las filas restantes -->
-        </tbody>
-      </table>
-      <button type="button" class="btn btn-success">Apply</button>
+    <table id="myTable" class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th>Columna 1</th>
+          <th>Columna 2</th>
+          <th>Columna 3</th>
+          <th>Columna 4</th>
+          <th>Columna 5</th>
+          <th>Columna 6</th>
+          <th>Columna 7</th>
+          <th>Columna 8</th>
+          <th>Columna 9</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+        </tr>
+        <tr>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="0" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+        </tr>
+        <tr>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+          <td><input type="number" value="1" class="form-control"></td>
+        </tr>
+        <!-- Repite las filas restantes -->
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-warning" onclick="resetKernel()">Reset Kernel</button>
+    <button type="button" class="btn btn-success" onclick="updatekernel()">Apply</button>
   </div>
 
 </body>
