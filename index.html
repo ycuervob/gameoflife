@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+  <script src="https://freshfork.github.io/p5.EasyCam/p5.easycam.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <script src="https://threejs.org/build/three.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <meta charset="utf-8" />  
+  <style>
+    #mystatus{
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px;
+      color: #fff;
+      background-color: rgba(255, 255,255, 0.30);
+    }
+
+    .table{
+      margin-bottom: 0;
+      background-color: rgba(255, 255,255, 0.30);
+    }
+
+    .floating-bubble {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #007bff;
+      text-align: center;
+      color: #fff;
+      line-height: 60px;
+      cursor: pointer;
+      z-index: 9999;
+    }
+    
+    .container {
+      display: none;
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.30);
+      z-index: 1;
+      max-width: 30rem;
+      padding: 1rem;
+      min-width: fit-content;
+    }
+    
+    .table-bordered {
+      max-width: 30rem;
+    }
+
+    .container.show {
+      display: flex;
+      flex-direction: column;
+      align-items: right;
+    }
+
+    .btn{
+      margin-top: 1rem;
+      margin-left: auto;
+    }
+  </style>
+
+</head>
+
+<body>
+  <script src="sketch.js"></script>
+  <script>
+    function toggleTable() {
+      document.getElementById("container").classList.toggle("show");
+    }
+  </script>
+
+  <div class="floating-bubble" onclick="toggleTable()">Click</div>
+  <div id="mystatus"></div>
+
+  <div id="container" class="container">
+      <table class="table table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th>Columna 1</th>
+            <th>Columna 2</th>
+            <th>Columna 3</th>
+            <th>Columna 4</th>
+            <th>Columna 5</th>
+            <th>Columna 6</th>
+            <th>Columna 7</th>
+            <th>Columna 8</th>
+            <th>Columna 9</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+          </tr>
+          <tr>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+            <td><input type="number" class="form-control"></td>
+          </tr>
+          <!-- Repite las filas restantes -->
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-success">Apply</button>
+  </div>
+
+</body>
+
+</html>
