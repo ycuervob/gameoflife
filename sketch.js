@@ -117,7 +117,7 @@ function draw() {
 
   paintMatrix();
 
-  mystatuselemnt.innerHTML = `<p>rameCount: ${frameRate()}</p><p>Cubes: ${aliveCubes}</p><p style="${update ? "color:green":"color:red"}">Status: ${update ? "Running" : "Stopped"}</p>`;
+  mystatuselemnt.innerHTML = `<p>rameCount: ${frameRate()}</p><p>Cubes: ${aliveCubes}</p><p style="${update ? "color:green" : "color:red"}">Status: ${update ? "Running" : "Stopped"}</p>`;
   //text("Frame rate: "+frameRate(), 0, -300);
 }
 
@@ -154,31 +154,52 @@ function convolucionarMatriz(matrizEntrada) {
   const typedArray = new Float32Array(flattenedArray); // Especificar el tipo de datos
   const shape = [matrizEntrada.length, matrizEntrada[0].length, matrizEntrada[0][0].length];
   const binaryMatrix = tf.tensor3d(typedArray, shape, 'float32'); // Crear tensor especificando el tipo
-
   const kernel = tf.tensor4d(providedkernel);
-
+  const N = matrizEntrada.length;
   const expandedBinaryMatrix = binaryMatrix.expandDims(-1);
   const expandedKernel = kernel.expandDims(-1);
   const binaryMatrixFloat = tf.cast(expandedBinaryMatrix, 'float32');
   const kernelFloat = tf.cast(expandedKernel, 'float32');
-
   const convolved = tf.conv3d(binaryMatrixFloat, kernelFloat, [1, 1, 1], 'same');
 
   let newmatriz = convolved.arraySync();
 
-  const matrizConvertida = newmatriz.map(row =>
-    row.map(column =>
-      column.map(item => {
-        if ((item[0] == 4 || item[0] == 5)) {
-          aliveCubes++;
-          return 1;
-        } else {
-          return 0;
-        }
+  const matrizConvertida = newmatriz.map(row => row.map(column => column.map(
+    item => {
+      if ((item[0] == 4 || item[0] == 5)) {
+        aliveCubes++;
+        return 1;
+      } else {
+        return 0;
       }
-      )
-    )
+    }
+  )
+  )
   );
+
+  // Copiar la matriz original
+  const matrizOpuesta = JSON.parse(JSON.stringify(matrizConvertida));
+
+  // Cambiar las caras opuestas
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      // Cambiar las caras superior e inferior
+      const tempSuperior = matrizOpuesta[i][j][0];
+      matrizOpuesta[i][j][0] = matrizOpuesta[i][j][N - 1];
+      matrizOpuesta[i][j][N - 1] = tempSuperior;
+
+      // Cambiar las caras izquierda y derecha
+      const tempIzquierda = matrizOpuesta[i][0][j];
+      matrizOpuesta[i][0][j] = matrizOpuesta[i][N - 1][j];
+      matrizOpuesta[i][N - 1][j] = tempIzquierda;
+
+      // Cambiar las caras frontal y trasera
+      const tempFrontal = matrizOpuesta[0][i][j];
+      matrizOpuesta[0][i][j] = matrizOpuesta[N - 1][i][j];
+      matrizOpuesta[N - 1][i][j] = tempFrontal;
+    }
+  }
+
 
   binaryMatrix.dispose();
   kernel.dispose();
@@ -189,25 +210,25 @@ function convolucionarMatriz(matrizEntrada) {
   convolved.dispose();
 
 
-  return matrizConvertida;
+  return matrizOpuesta;
 }
 
 function toggleTable() {
   document.getElementById("container").classList.toggle("show");
 }
 
-function closeModal(){
+function closeModal() {
   document.getElementById('mymodal').toggleAttribute('hidden')
 }
 
-function startStop(){
+function startStop() {
   update = !update;
   let butn = document.getElementById('star-stop');
   butn.innerHTML = update ? 'Stop' : 'Start';
   butn.classList.toggle('btn-danger');
 }
 
-function reset(){
+function reset() {
   maxAliveCubes = Math.random() * 1000;
   genMatrix();
 }
