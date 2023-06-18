@@ -40,6 +40,5 @@ Puedes personalizar el juego ajustando los siguientes parámetros:
 - Este juego de la vida en 3D fue implementado utilizando el lenguaje de programación JavaScript y las bibliotecas p5.js y TensorFlow.
 - El Juego de la Vida fue creado por [John Horton Conway](https://en.wikipedia.org/wiki/John_Horton_Conway) en 1970.
 - TensorFlow es una biblioteca de aprendizaje automático desarrollada por Google.
-- La implementación y el código base fueron creados por el autor original del código.
 
 ¡Disfruta jugando al Juego de la Vida en 3D y experimenta con diferentes configuraciones y reglas para crear patrones interesantes utilizando la potencia de TensorFlow!
