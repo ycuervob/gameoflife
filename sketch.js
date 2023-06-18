@@ -128,6 +128,7 @@ function setup() {
 
 function resizepcanvas() {
   resizeCanvas(window.innerWidth, window.innerHeight);
+  easycam = createEasyCam({ distance: 1 });
 }
 
 function draw() {
@@ -324,4 +325,6 @@ function toggleFullScreen() {
       elem.msRequestFullscreen();
     }
   }
+
+  resizepcanvas();
 }
