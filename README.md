@@ -35,6 +35,56 @@ Puedes personalizar el juego ajustando los siguientes parámetros:
 - **maxAliveCubes**: Límite máximo de cubos vivos. Por defecto, el límite máximo es de 1000 cubos vivos. Puedes ajustar este valor para cambiar el número máximo de cubos vivos en el juego. Cuando se alcanza este límite, se generará una nueva matriz aleatoria.
 - **providedkernel**: El kernel predeterminado es una matriz tridimensional que contiene las reglas del Juego de la Vida. Puedes ajustar los valores de esta matriz para cambiar las reglas del juego. La tabla en la interfaz te permite editar estos valores de manera más conveniente.
 
+## Puedes correr el proyecto
+
+### Utilizando http-server de Node.js:
+
+Asegúrate de tener Node.js instalado en tu sistema. Puedes descargarlo e instalarlo desde https://nodejs.org/es/.
+
+Abre una terminal o línea de comandos y navega hasta la carpeta donde tienes los archivos del juego.
+
+Instala http-server globalmente ejecutando el siguiente comando:
+
+´´´
+npm install -g http-server
+´´´
+
+Una vez que se haya completado la instalación, ejecuta el siguiente comando para iniciar el servidor:
+
+´´´
+http-server
+´´´
+
+Verás un mensaje que indica en qué dirección local se está ejecutando el servidor (por ejemplo, http://127.0.0.1:8080). Abre tu navegador web y visita esa dirección.
+
+El juego se cargará en el navegador y podrás interactuar con él utilizando los controles mencionados en las instrucciones.
+
+### Utilizando Nginx:
+
+Instala Nginx en tu sistema siguiendo las instrucciones adecuadas para tu sistema operativo. Puedes encontrar instrucciones de instalación en el sitio web oficial de Nginx (https://nginx.org/).
+
+Configura Nginx para servir los archivos del juego. Abre el archivo de configuración de Nginx (normalmente ubicado en /etc/nginx/nginx.conf o /etc/nginx/conf.d/default.conf) y agrega una nueva configuración de servidor similar a esta:
+
+´´´bash
+server {
+    listen 80;
+    server_name localhost;
+    root /ruta/a/la/carpeta/del/juego;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+´´´
+
+Reemplaza /ruta/a/la/carpeta/del/juego con la ruta real de la carpeta donde tienes los archivos del juego.
+
+Reinicia el servidor Nginx para que los cambios surtan efecto.
+
+Abre tu navegador web y visita http://localhost (o la dirección que hayas configurado en el paso anterior).
+
+El juego se cargará en el navegador y podrás interactuar con él utilizando los controles mencionados en las instrucciones.
+
 ## Créditos
 
 - Este juego de la vida en 3D fue implementado utilizando el lenguaje de programación JavaScript y las bibliotecas p5.js y TensorFlow.
