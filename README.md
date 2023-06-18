@@ -57,8 +57,6 @@ http-server
 
 Verás un mensaje que indica en qué dirección local se está ejecutando el servidor (por ejemplo, http://127.0.0.1:8080). Abre tu navegador web y visita esa dirección.
 
-El juego se cargará en el navegador y podrás interactuar con él utilizando los controles mencionados en las instrucciones.
-
 ### Utilizando Nginx:
 
 Instala Nginx en tu sistema siguiendo las instrucciones adecuadas para tu sistema operativo. Puedes encontrar instrucciones de instalación en el sitio web oficial de Nginx (https://nginx.org/).
@@ -82,8 +80,6 @@ Reemplaza /ruta/a/la/carpeta/del/juego con la ruta real de la carpeta donde tien
 Reinicia el servidor Nginx para que los cambios surtan efecto.
 
 Abre tu navegador web y visita http://localhost (o la dirección que hayas configurado en el paso anterior).
-
-El juego se cargará en el navegador y podrás interactuar con él utilizando los controles mencionados en las instrucciones.
 
 ## Créditos
 
