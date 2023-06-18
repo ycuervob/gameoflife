@@ -45,15 +45,15 @@ Abre una terminal o línea de comandos y navega hasta la carpeta donde tienes lo
 
 Instala http-server globalmente ejecutando el siguiente comando:
 
-´´´
+``` bash
 npm install -g http-server
-´´´
+```
 
 Una vez que se haya completado la instalación, ejecuta el siguiente comando para iniciar el servidor:
 
-´´´
+``` bash
 http-server
-´´´
+```
 
 Verás un mensaje que indica en qué dirección local se está ejecutando el servidor (por ejemplo, http://127.0.0.1:8080). Abre tu navegador web y visita esa dirección.
 
@@ -65,7 +65,7 @@ Instala Nginx en tu sistema siguiendo las instrucciones adecuadas para tu sistem
 
 Configura Nginx para servir los archivos del juego. Abre el archivo de configuración de Nginx (normalmente ubicado en /etc/nginx/nginx.conf o /etc/nginx/conf.d/default.conf) y agrega una nueva configuración de servidor similar a esta:
 
-´´´bash
+```bash
 server {
     listen 80;
     server_name localhost;
@@ -75,7 +75,7 @@ server {
         try_files $uri $uri/ =404;
     }
 }
-´´´
+```
 
 Reemplaza /ruta/a/la/carpeta/del/juego con la ruta real de la carpeta donde tienes los archivos del juego.
 
