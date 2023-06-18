@@ -139,7 +139,7 @@ function draw() {
   texture(bg);
   noStroke();
   sphere(cubeSize * matrixSize * 2);
-  mystatuselemnt.innerHTML = `<p>rameCount: ${frameRate()}</p><p>Cubes: ${aliveCubes}</p><p style="${update ? "color:green" : "color:red"}">Status: ${update ? "Running" : "Stopped"}</p>`;
+  mystatuselemnt.innerHTML = `<p style="color:${frameRate() < 15 ? "red": "green" }">Frame Count: ${frameRate().toFixed(4)}</p><p>Cubes: ${aliveCubes}</p><p style="${update ? "color:green" : "color:red"}">Status: ${update ? "Running" : "Stopped"}</p>`;
 }
 
 function keyPressed() {
