@@ -295,3 +295,33 @@ function adyajentcond2() {
   cond2 = document.getElementById('cond2').value;
   displaySuccessMessage("Condition 2 updated");
 }
+
+function toggleFullScreen() {
+  var elem = document.documentElement;
+
+  if (elem.requestFullscreen) {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      elem.requestFullscreen();
+    }
+  } else if (elem.mozRequestFullScreen) { // Firefox
+    if (document.mozFullScreen) {
+      document.mozCancelFullScreen();
+    } else {
+      elem.mozRequestFullScreen();
+    }
+  } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+    if (document.webkitFullscreenElement) {
+      document.webkitExitFullscreen();
+    } else {
+      elem.webkitRequestFullscreen();
+    }
+  } else if (elem.msRequestFullscreen) { // IE/Edge
+    if (document.msFullscreenElement) {
+      document.msExitFullscreen();
+    } else {
+      elem.msRequestFullscreen();
+    }
+  }
+}
