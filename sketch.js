@@ -21,6 +21,8 @@ let spaceTexture;
 let spot;
 let cond1 = 4;
 let cond2 = 5;
+let showsphere = true;
+let edges = true;
 
 let aliveCubes = 0;  // Variable para rastrear la cantidad de cubos vivos
 
@@ -97,6 +99,12 @@ function updateMatrix() {
 }
 
 function paintMatrix() {
+  if (edges){
+    stroke(10);
+  } else {
+    noStroke();
+  }
+
   for (let x = 0; x < matrixSize; x++) {
     for (let y = 0; y < matrixSize; y++) {
       for (let z = 0; z < matrixSize; z++) {
@@ -108,7 +116,8 @@ function paintMatrix() {
           push();
           translate(posX, posY, posZ);
           fill(boxColor || 255);
-          stroke(10);
+          
+          
           box(cubeSize);
           pop();
         }
@@ -149,7 +158,10 @@ function draw() {
   // Aplicar la textura a la esfera
   texture(bg);
   noStroke();
-  sphere(cubeSize * matrixSize * 2);
+
+  if(showsphere){
+    sphere(cubeSize * matrixSize * 2);
+  }
   mystatuselemnt.innerHTML = `<p style="color:${frameRate() < 15 ? "red" : "green"}">Frame Count: ${frameRate().toFixed(4)}</p><p>Cubes: ${aliveCubes}</p><p style="${update ? "color:green" : "color:red"}">Status: ${update ? "Running" : "Stopped"}</p>`;
 }
 
@@ -327,4 +339,14 @@ function toggleFullScreen() {
   }
 
   resizepcanvas();
+}
+
+function updateShowSphere() {
+  document.getElementById('text-show-sphere').innerHTML = showsphere ? 'Hide Sphere' : 'Show Sphere';
+  showsphere = !showsphere;
+}
+
+function updateShowEdges() {
+  document.getElementById('text-show-edges').innerHTML = true ? 'Hide Edges' : 'Show Edges';
+  edges = !edges;
 }
