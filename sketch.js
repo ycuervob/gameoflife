@@ -1,5 +1,5 @@
 let easycam;
-let matrixSize = 50;
+let matrixSize = 40;
 let cubeSize = 10;
 let update = false;
 let matrix = [];
@@ -19,6 +19,8 @@ let boxColor;
 let ambient;
 let spaceTexture;
 let spot;
+let cond1 = 4;
+let cond2 = 5;
 
 let aliveCubes = 0;  // Variable para rastrear la cantidad de cubos vivos
 
@@ -200,7 +202,7 @@ function convolucionarMatriz(matrizEntrada) {
 
   const matrizConvertida = newmatriz.map(row => row.map(column => column.map(
     item => {
-      if ((item[0] == 4 || item[0] == 5)) {
+      if ((item[0] == cond1 || item[0] == cond2)) {
         return 1;
       } else {
         return 0;
@@ -282,4 +284,14 @@ function updateMatrixSize() {
   matrix = [];
   genMatrix();
   displaySuccessMessage("Matrix size updated");
+}
+
+function adyajentcond1() {
+  cond1 = document.getElementById('cond1').value;
+  displaySuccessMessage("Condition 1 updated");
+}
+
+function adyajentcond2() {
+  cond2 = document.getElementById('cond2').value;
+  displaySuccessMessage("Condition 2 updated");
 }

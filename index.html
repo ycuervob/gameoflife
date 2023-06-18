@@ -111,10 +111,35 @@
     </div>
     <div class="color-ambient">
       <span class="text-options">Matrix size: </span>
-      <input type="number" id="matrixSizeInput" value="50">
+      <input type="number" id="matrixSizeInput" value="40">
       <button type="button" class="btn btn-primary" onclick="updateMatrixSize()">Apply</button>
       <span class="text-options-warning">A high number is not recommended.</span>
     </div>
+    <div class="color-ambient">
+      <span class="text-options">Adjacent game conditions: </span>
+      <select id="cond1" class="form-select" onchange="adyajentcond1()" aria-label="Selection of condition">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4" selected>4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select>
+      <span class="text-options">and  </span>
+      <select id="cond2" class="form-select" onchange="adyajentcond2()" aria-label="Selection of condition">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5" selected>5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select>
   </div>
 
 </body>
