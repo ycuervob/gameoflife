@@ -324,4 +324,5 @@ function toggleFullScreen() {
       elem.msRequestFullscreen();
     }
   }
+  resizeCanvas(window.innerWidth, window.innerHeight);
 }
