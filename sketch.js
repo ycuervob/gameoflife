@@ -69,7 +69,7 @@ function setTableContent(tableContent) {
 }
 
 function binaryNoise(probability) {
-  return Math.random() < probability ? 1 : 0;
+  return Math.random() <= probability ? 1 : 0;
 }
 
 function genMatrix() {
@@ -201,7 +201,6 @@ function convolucionarMatriz(matrizEntrada) {
   const matrizConvertida = newmatriz.map(row => row.map(column => column.map(
     item => {
       if ((item[0] == 4 || item[0] == 5)) {
-        aliveCubes++;
         return 1;
       } else {
         return 0;
@@ -263,7 +262,6 @@ function startStop() {
 }
 
 function reset() {
-  maxAliveCubes = Math.random() * 1000;
   genMatrix();
 }
 
