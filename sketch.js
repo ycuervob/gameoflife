@@ -14,11 +14,13 @@ let myFont;
 let points = [];
 let mystatuselemnt;
 let providedkernel;
+let bg;
 
 let aliveCubes = 0;  // Variable para rastrear la cantidad de cubos vivos
 
 function preload() {
   // preload() runs once
+  bg = loadImage('space.jpg');
   myFont = loadFont("https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf");
 }
 
@@ -45,6 +47,21 @@ function getTableContent() {
     tableContent.push(rowData);
   }
   return tableContent;
+}
+
+function setTableContent(tableContent) {
+  var table = document.getElementById("myTable");
+  var rows = table.getElementsByTagName("tr");
+
+  for (var i = 1; i < rows.length; i++) {
+    var rowData = tableContent[i-1];
+    var cells = rows[i].getElementsByTagName("td");
+
+    for (var j = 0; j < cells.length; j++) {
+      var input = cells[j].firstChild
+      input.value = rowData[Math.floor(j/3)][j%3][0];
+    }
+  }
 }
 
 function binaryNoise(probability) {
@@ -84,8 +101,9 @@ function paintMatrix() {
 
           push();
           translate(posX, posY, posZ);
+          fill(255);
+          stroke(10);
           box(cubeSize);
-          fill(0, 255, 255);
           pop();
         }
       }
@@ -104,12 +122,12 @@ function setup() {
 
 function draw() {
   background(0);
-  ambientLight(150);
+  ambientLight(50);
+  directionalLight(255, 255, 255, 1, 1, 1); // Establecer la dirección de la luz hacia arriba
 
   // compute current camera position in world space:
   const position = treeLocation([0, 0, 0], { from: Tree.EYE, to: Tree.WORLD });
 
-  //directionalLight(255, 255, 255, 0, 1, 1); // Establecer la dirección de la luz hacia arriba
 
   if (update) {
     updateMatrix();
@@ -117,8 +135,11 @@ function draw() {
 
   paintMatrix();
 
+  // Aplicar la textura a la esfera
+  texture(bg);
+  noStroke();
+  sphere(cubeSize * matrixSize * 2);
   mystatuselemnt.innerHTML = `<p>rameCount: ${frameRate()}</p><p>Cubes: ${aliveCubes}</p><p style="${update ? "color:green" : "color:red"}">Status: ${update ? "Running" : "Stopped"}</p>`;
-  //text("Frame rate: "+frameRate(), 0, -300);
 }
 
 function keyPressed() {
@@ -145,7 +166,12 @@ function resetKernel() {
     [[[1], [1], [1]], [[1], [0], [1]], [[1], [1], [1]]],
     [[[1], [1], [1]], [[1], [1], [1]], [[1], [1], [1]]]
   ];
-
+  setTableContent(providedkernel);
+  document.getElementById("message").innerHTML = "Kernel has been reset";
+  document.getElementById("message").toggleAttribute("hidden");
+  setTimeout(() => {
+    document.getElementById("message").toggleAttribute("hidden");
+  }, 2000);
 }
 
 function convolucionarMatriz(matrizEntrada) {
