@@ -15,6 +15,10 @@ let points = [];
 let mystatuselemnt;
 let providedkernel;
 let bg;
+let boxColor;
+let ambient;
+let spaceTexture;
+let spot;
 
 let aliveCubes = 0;  // Variable para rastrear la cantidad de cubos vivos
 
@@ -54,12 +58,12 @@ function setTableContent(tableContent) {
   var rows = table.getElementsByTagName("tr");
 
   for (var i = 1; i < rows.length; i++) {
-    var rowData = tableContent[i-1];
+    var rowData = tableContent[i - 1];
     var cells = rows[i].getElementsByTagName("td");
 
     for (var j = 0; j < cells.length; j++) {
       var input = cells[j].firstChild
-      input.value = rowData[Math.floor(j/3)][j%3][0];
+      input.value = rowData[Math.floor(j / 3)][j % 3][0];
     }
   }
 }
@@ -101,7 +105,7 @@ function paintMatrix() {
 
           push();
           translate(posX, posY, posZ);
-          fill(255);
+          fill(boxColor || 255);
           stroke(10);
           box(cubeSize);
           pop();
@@ -120,17 +124,21 @@ function setup() {
   providedkernel = getTableContent();
 }
 
+function resizepcanvas() {
+  resizeCanvas(window.innerWidth, window.innerHeight);
+}
+
 function draw() {
   background(0);
-  ambientLight(50);
-  directionalLight(255, 255, 255, 1, 1, 1); // Establecer la dirección de la luz hacia arriba
+  ambientLight(ambient || 25);
+  directionalLight(color(spot || 255), createVector(1, 1, 1)); // Establecer la dirección de la luz hacia arriba
 
   // compute current camera position in world space:
-  const position = treeLocation([0, 0, 0], { from: Tree.EYE, to: Tree.WORLD });
+  //const position = treeLocation([0, 0, 0], { from: Tree.EYE, to: Tree.WORLD });
 
 
   if (update) {
-    updateMatrix();
+    updateMatrix(); // Actualizar la matriz
   }
 
   paintMatrix();
@@ -139,7 +147,7 @@ function draw() {
   texture(bg);
   noStroke();
   sphere(cubeSize * matrixSize * 2);
-  mystatuselemnt.innerHTML = `<p style="color:${frameRate() < 15 ? "red": "green" }">Frame Count: ${frameRate().toFixed(4)}</p><p>Cubes: ${aliveCubes}</p><p style="${update ? "color:green" : "color:red"}">Status: ${update ? "Running" : "Stopped"}</p>`;
+  mystatuselemnt.innerHTML = `<p style="color:${frameRate() < 15 ? "red" : "green"}">Frame Count: ${frameRate().toFixed(4)}</p><p>Cubes: ${aliveCubes}</p><p style="${update ? "color:green" : "color:red"}">Status: ${update ? "Running" : "Stopped"}</p>`;
 }
 
 function keyPressed() {
@@ -152,12 +160,8 @@ function keyPressed() {
 }
 
 function updatekernel() {
-  document.getElementById("message").innerHTML = "Kernel updated";
-  document.getElementById("message").toggleAttribute("hidden");
-  setTimeout(() => {
-    document.getElementById("message").toggleAttribute("hidden");
-  }, 2000);
   providedkernel = getTableContent();
+  displaySuccessMessage("Kernel updated");
 }
 
 function resetKernel() {
@@ -167,7 +171,11 @@ function resetKernel() {
     [[[1], [1], [1]], [[1], [1], [1]], [[1], [1], [1]]]
   ];
   setTableContent(providedkernel);
-  document.getElementById("message").innerHTML = "Kernel has been reset";
+  displaySuccessMessage("Kernel has been reset");
+}
+
+function displaySuccessMessage(msg) {
+  document.getElementById("message").innerHTML = msg;
   document.getElementById("message").toggleAttribute("hidden");
   setTimeout(() => {
     document.getElementById("message").toggleAttribute("hidden");
@@ -257,4 +265,23 @@ function startStop() {
 function reset() {
   maxAliveCubes = Math.random() * 1000;
   genMatrix();
+}
+
+function updateColor() {
+  boxColor = document.getElementById('colorPicker').value;
+}
+
+function updateColorAmbient() {
+  ambient = document.getElementById('colorPickerAmbient').value;
+}
+
+function updateColorSpot() {
+  spot = document.getElementById('colorPickerSpot').value;
+}
+
+function updateMatrixSize() {
+  matrixSize = document.getElementById('matrixSizeInput').value;
+  matrix = [];
+  genMatrix();
+  displaySuccessMessage("Matrix size updated");
 }

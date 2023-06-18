@@ -19,6 +19,7 @@ canvas {
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.50);
 }
+
 .table td, .table th{
   padding: 0px;
 }
@@ -27,7 +28,9 @@ canvas {
   border-radius: 0px;
   background-color: #000;
   color: #fff;
+  width: 60px;
 }
+
 
 .table .thead-light th {
   color: #fff;
@@ -76,7 +79,7 @@ canvas {
 }
 
 .btn {
-  margin-top: 1rem;
+  margin-top: 0;
   margin-left: auto;
 }
 
@@ -107,3 +110,43 @@ canvas {
   width: fit-content;
 }
 
+h1 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 2rem;
+  letter-spacing: 0.05em;
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+}
+
+.text-options{
+  color: #ffffff;
+  padding: 10px 5px;
+  font-weight: bold;
+}
+
+.color-ambient{
+  margin: 10px 0px;
+  padding: 10px 5px;
+  border-width: 1px;
+  border-top: #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.floating-bubble:hover {
+  background-color: #002e5f;
+  transform: scale(1.1);
+}
+
+#matrixSizeInput{
+  width: 60px;
+}
+
+.text-options-warning{
+  color: #d4c435;
+  padding: 10px 5px;
+  font-weight: bold;
+}
