@@ -14,12 +14,6 @@ En este caso, TensorFlow se utiliza para realizar la convolución de la matriz d
 
 El código utiliza la funcionalidad de convolución de TensorFlow para convolucionar la matriz del Juego de la Vida con un kernel específico. El kernel es una matriz tridimensional que define las reglas de supervivencia y muerte de los cubos en el juego. A través de la convolución, se obtiene una nueva matriz que representa la siguiente generación del juego.
 
-## Cómo ejecutar el juego
-
-1. Descarga todos los archivos y colócalos en una carpeta.
-2. Abre el archivo HTML en tu navegador web.
-3. El juego se iniciará automáticamente y se mostrará en 3D.
-
 ## Controles del juego
 
 - **Espacio (barra espaciadora)**: Genera una nueva matriz aleatoria. Cada celda de la matriz puede estar viva (representada por un cubo) o muerta.
@@ -35,7 +29,10 @@ Puedes personalizar el juego ajustando los siguientes parámetros:
 - **maxAliveCubes**: Límite máximo de cubos vivos. Por defecto, el límite máximo es de 1000 cubos vivos. Puedes ajustar este valor para cambiar el número máximo de cubos vivos en el juego. Cuando se alcanza este límite, se generará una nueva matriz aleatoria.
 - **providedkernel**: El kernel predeterminado es una matriz tridimensional que contiene las reglas del Juego de la Vida. Puedes ajustar los valores de esta matriz para cambiar las reglas del juego. La tabla en la interfaz te permite editar estos valores de manera más conveniente.
 
-## Puedes correr el proyecto
+## Como correr el proyecto
+
+1. Descarga todos los archivos y colócalos en una carpeta o clonalo usango git.
+2. Utiliza algún servidor de archivos estáticos para servir los archivos del proyecto.
 
 ### Utilizando http-server de Node.js:
 
